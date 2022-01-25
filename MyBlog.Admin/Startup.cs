@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -28,10 +29,19 @@ namespace MyBlog.Admin
         {
             services.AddDbContext<MyBlogDbContext>(option =>
             {
-                option.UseSqlServer("server=.;Database=MyBlogDev;UserId=sa,Password123;");
+                option.UseSqlServer("Server=.;Database=MyBlogDev;User Id=sa;Password=123;");
             });
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
+            { 
+                option.LoginPath = "/auth/login";
+                option.ExpireTimeSpan = TimeSpan.FromDays(1);
+            });
+            
+        
 
             services.AddControllersWithViews();
         }
@@ -52,6 +62,7 @@ namespace MyBlog.Admin
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

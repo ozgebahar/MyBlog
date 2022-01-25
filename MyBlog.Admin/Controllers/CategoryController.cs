@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyBlog.Admin.Models;
 using MyBlog.Data.Entities;
 using MyBlog.Services.Interfaces;
@@ -6,10 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MyBlog.Admin.Controllers
 {
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _categoryRepository;
@@ -19,6 +22,8 @@ namespace MyBlog.Admin.Controllers
             _categoryRepository = categoryRepository;
         }
 
+        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "editor")]
         public IActionResult Add()
         {
             return View();
@@ -32,11 +37,15 @@ namespace MyBlog.Admin.Controllers
             {
                 return View(model);
             }
+
+            var currentUserIdStr = HttpContext.User.Claims.FirstOrDefault(x=> x.Type == ClaimTypes.NameIdentifier).Value;
+            var currentUserId = Convert.ToInt32(currentUserIdStr);
+
             Category entity = new Category()
             { 
             CategoryName = model.CategoryName,
             Description = model.Description,
-            CreatedById = 1
+            CreatedById = currentUserId
             };
 
             #region Picture için düzenleme
@@ -65,6 +74,7 @@ namespace MyBlog.Admin.Controllers
             return View(model);
         }
 
+        [Authorize(Roles ="admin")]
         public IActionResult List()
         {
             var categories = _categoryRepository.GetCategories().Select(x =>
@@ -104,11 +114,16 @@ namespace MyBlog.Admin.Controllers
             {
                 return View(model);
             }
+
+            var currentUserIdStr = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var currentUserId = Convert.ToInt32(currentUserIdStr);
+
             Category entity = new Category()
             {
+                Id = model.Id,
                 CategoryName = model.CategoryName,
                 Description = model.Description,
-                CreatedById = 1
+               UpdatedById = currentUserId
             };
 
             #region Picture için düzenleme
