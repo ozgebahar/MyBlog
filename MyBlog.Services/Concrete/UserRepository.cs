@@ -24,7 +24,7 @@ namespace MyBlog.Services.Concrete
                 return false;
             }
             entity.CreatedDate = DateTime.Now;
-            entity.Role = "editor";
+            entity.Role = entity.Role.ToLower();
             _db.Users.Add(entity);
 
             return _db.SaveChanges() > 0;
@@ -56,6 +56,7 @@ namespace MyBlog.Services.Concrete
             uptEntity.Email = entity.Email;
             uptEntity.Password = entity.Password;
             uptEntity.UpdatedDate = DateTime.Now;
+            uptEntity.Role = entity.Role.ToLower();
 
             return _db.SaveChanges() > 0;
         }

@@ -1,0 +1,46 @@
+﻿@model IEnumerable<MyBlog.Admin.Models.TagViewModel>
+
+@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Tag List</h1>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info">
+        @TempData["Message"]
+    </div>
+}
+<div>
+    <a asp-action="Add">Yeni Ekle</a>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Tag Adı
+            </th>
+            <th>
+                İşlemler
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    <a href="/tag/edit/@item.Id">Düzenle</a>
+                    <a href="/tag/delete/@item.Id">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

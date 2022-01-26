@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace MyBlog.Admin.Controllers
 {
     [Authorize]
-    public class CategoryController : Controller
+    public class CategoryController : BaseController
     {
         private readonly ICategoryRepository _categoryRepository;
 
@@ -38,8 +38,7 @@ namespace MyBlog.Admin.Controllers
                 return View(model);
             }
 
-            var currentUserIdStr = HttpContext.User.Claims.FirstOrDefault(x=> x.Type == ClaimTypes.NameIdentifier).Value;
-            var currentUserId = Convert.ToInt32(currentUserIdStr);
+            var currentUserId = GetCurrentUserId();
 
             Category entity = new Category()
             { 
@@ -115,8 +114,7 @@ namespace MyBlog.Admin.Controllers
                 return View(model);
             }
 
-            var currentUserIdStr = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var currentUserId = Convert.ToInt32(currentUserIdStr);
+            var currentUserId = GetCurrentUserId();
 
             Category entity = new Category()
             {
@@ -155,6 +153,7 @@ namespace MyBlog.Admin.Controllers
         public IActionResult Delete(int id)
         {
             var result = _categoryRepository.Delete(id);
+
             TempData["Message"] = result ? "işlem başarılı" : "Silme işlemi gerçekleştirilemedi";
 
             return RedirectToAction("List");

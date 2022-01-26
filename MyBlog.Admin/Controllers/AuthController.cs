@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyBlog.Admin.Models;
 using MyBlog.Data.Entities;
@@ -11,7 +12,8 @@ using System.Threading.Tasks;
 
 namespace MyBlog.Admin.Controllers
 {
-    public class AuthController : Controller
+    [AllowAnonymous]
+    public class AuthController : BaseController
     {
         private readonly IUserRepository _userRepository;
 
@@ -32,13 +34,17 @@ namespace MyBlog.Admin.Controllers
             {
                 return View(model);
             }
+
+            var currentUserId = GetCurrentUserId();
+
             var user = new User()
             {
                 Name = model.Firstname,
                 Surname = model.Lastname,
                 Email = model.Email,
                 Password = model.Password,
-                CreatedById = -1
+                CreatedById = GetCurrentUserId(),
+                Role = "editor"
 
             };
 
