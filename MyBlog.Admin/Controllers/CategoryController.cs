@@ -23,7 +23,6 @@ namespace MyBlog.Admin.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [Authorize(Roles = "editor")]
         public IActionResult Add()
         {
             return View();
@@ -33,6 +32,7 @@ namespace MyBlog.Admin.Controllers
         [HttpPost]
         public IActionResult Add(CategoryViewModel model)
         {
+           
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -109,6 +109,8 @@ namespace MyBlog.Admin.Controllers
         [HttpPost]
         public IActionResult Edit(CategoryViewModel model)
         {
+           
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -154,7 +156,7 @@ namespace MyBlog.Admin.Controllers
         {
             var result = _categoryRepository.Delete(id);
 
-            TempData["Message"] = result ? "işlem başarılı" : "Silme işlemi gerçekleştirilemedi";
+            TempData["Message"] = result ? "Silme işlemi başarılı" : "Silme işlemi gerçekleştirilemedi";
 
             return RedirectToAction("List");
         }

@@ -53,7 +53,7 @@ namespace MyBlog.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("Edit", model);
+                return View(model);
             }
 
             var currentUserId = GetCurrentUserId();
@@ -73,7 +73,7 @@ namespace MyBlog.Admin.Controllers
                 return RedirectToAction("List");
             }
 
-            return View("Edit", model);
+            return View(model);
         }
 
         public ActionResult Delete(int id)

@@ -36,6 +36,7 @@ namespace MyBlog.Admin
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
             { 

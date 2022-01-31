@@ -162,11 +162,12 @@ namespace MyBlog.Admin.Controllers
                     Title = uptPost.Title,
                     Content = uptPost.Content,
                     Tags = string.Join(',', uptPost.PostTags.Select(x => x.Tag.Name)),
+                    
                     CategoryId = uptPost.CategoryId,
                     IsPublished = uptPost.IsPublished
                 };
 
-                return View("AddOrEdit", vm);
+                return View(vm);
             }
 
             return RedirectToAction("List");
