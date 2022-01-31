@@ -2,6 +2,7 @@
 using MyBlog.Data.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace MyBlog.Admin.Models
 
         public string PictureStr { get; set; }
 
+        [DisplayName("Yayında mı?")]
         public bool IsPublished { get; set; }
 
         #region Releations

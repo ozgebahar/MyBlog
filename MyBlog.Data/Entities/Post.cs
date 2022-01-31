@@ -17,6 +17,8 @@ namespace MyBlog.Data.Entities
 
         public byte[] Picture { get; set; }
 
+        public bool IsPublished { get; set; }
+
 
         #region Relations
 
