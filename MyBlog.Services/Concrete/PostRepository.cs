@@ -97,5 +97,15 @@ namespace MyBlog.Services.Concrete
         {
             return _db.Posts.Include(x=> x.Category).Where(x => x.IsActive).ToList();
         }
+
+        public List<Post> GetLast4Post()
+        {
+            return _db.Posts
+                .Include(x => x.comments)
+                .Include(x => x.PostTags).ThenInclude(x => x.Tag)
+                .Where(x => x.IsPublished && x.IsActive)
+                .OrderByDescending(x => x.CreatedDate)
+                .Take(4).ToList();
+        }
     }
 }

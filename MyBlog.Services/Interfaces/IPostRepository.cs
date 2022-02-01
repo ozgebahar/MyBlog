@@ -12,5 +12,7 @@ namespace MyBlog.Services.Interfaces
         bool Add(Post entity);
         bool Edit(Post entity);
         bool Delete(int id);
+        List<Post> GetLast4Post();
+
     }
 }
