@@ -22,7 +22,7 @@ namespace MyBlog.Admin.Controllers
             _userRepository = userRepository;
         }
 
-        public IActionResult Register()
+        public IActionResult Register() //den
         {
             return View();
         }
